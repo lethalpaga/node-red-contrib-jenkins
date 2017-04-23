@@ -2,6 +2,8 @@ URI = require('urijs');
 util = require('util');
 
 module.exports = function(RED) {
+    "use strict";
+
     /**
      * Get status from a Jenkins instance
      * @param {string} config - The Node-RED node configuration
@@ -31,8 +33,9 @@ module.exports = function(RED) {
             }
 
             jenkinsInstance.info(function(err, data) {
-                if (err) throw err;
+                if (err) return node.error("Error getting info from Jenkins", err);
                 msg.payload = data.jobs[0].color;
+
                 node.send(msg);
             });
         });
